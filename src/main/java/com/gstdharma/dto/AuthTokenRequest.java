@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class AuthTokenRequest {
 
-    private String action = Actions.ACCESS_TOKEN;
+    private String action = Actions.AUTH_TOKEN;
     private String userName;
     private String appKey;
     private String otp;

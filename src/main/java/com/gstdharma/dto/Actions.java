@@ -5,6 +5,6 @@ package com.gstdharma.dto;
  */
 public class Actions {
 
-    public static final String ACCESS_TOKEN = "ACCESSTOKEN";
+    public static final String AUTH_TOKEN = "AUTHTOKEN";
 
 }

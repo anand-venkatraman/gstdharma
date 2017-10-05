@@ -26,8 +26,12 @@ package in.gov.gst.crypto;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -154,7 +158,7 @@ public class AESEncryption {
 
 
             //Generation of OTP with appkey
-            String otp = "102030";
+            String otp = "575757";
             String encryptedOtp = encryptEK(otp.getBytes(), decodeBase64StringTOByte(appkey));
             System.out.println("OTP :" + encryptedOtp);
 
@@ -195,7 +199,7 @@ public class AESEncryption {
     public static void main(String args[]) throws Exception {
 
         produceSampleData();
-        testData();
+//        testData();
 
     }
 }
