@@ -1,12 +1,15 @@
 package com.gstdharma;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gstdharma.dto.AuthResponse;
 import com.gstdharma.dto.AuthTokenRequest;
+import com.gstdharma.dto.AuthTokenResponse;
 import com.gstdharma.http.HttpModule;
 import in.gov.gst.crypto.AESEncryption;
 import in.gov.gst.crypto.EncryptionUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import sun.plugin2.util.SystemUtil;
 
 import java.util.Map;
@@ -42,7 +45,7 @@ public class AuthenticationModule {
         }
     }
 
-    public String authenticate() {
+    public AuthResponse authenticate() {
         try {
             AuthTokenRequest request = new AuthTokenRequest();
             ////////////////////////////////////////////////////////////////////////////////////////
@@ -64,12 +67,12 @@ public class AuthenticationModule {
             request.setOtp(encryptedOtp);
             request.setUserName(userName);
             String body = MAPPER.writeValueAsString(request);
-            System.out.println(body);
             HttpResponse response = httpModule.post("http://devapi.gstsystem.co.in/taxpayerapi/v0.2/authenticate", headers, body);
             String responseBody = IOUtils.toString(response.getEntity().getContent());
-            System.out.println("Status: " + response.getStatusLine().getStatusCode());
-            System.out.println("Body: " + responseBody);
-            return responseBody;
+            if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                return new AuthResponse(MAPPER.readValue(responseBody, AuthTokenResponse.class), responseBody);
+            }
+            return new AuthResponse(null, responseBody);
         } catch (Throwable ex) {
             throw new RuntimeException(ex);
         }
